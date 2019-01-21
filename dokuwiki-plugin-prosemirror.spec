@@ -11,6 +11,8 @@ License:	GPL v2
 Group:		Applications/WWW
 Source0:	https://github.com/cosmocode/dokuwiki-plugin-prosemirror/archive/%{subver}/%{plugin}-%{subver}.tar.gz
 # Source0-md5:	1dec404a752dea552c6ec5558aaaa456
+Source1:	https://github.com/cosmocode/dokuwiki-plugin-prosemirror/raw/release/lib/bundle.js
+# Source1-md5:	fa014eb4bc9a97759aded6ebcc6b468f
 URL:		https://www.dokuwiki.org/plugin:prosemirror
 BuildRequires:	rpm-php-pearprov >= 4.4.2-11
 BuildRequires:	rpmbuild(macros) >= 1.553
@@ -38,8 +40,9 @@ A WYSIWYG editor for DokuWiki based on ProseMirror.
 
 %prep
 %setup -qc
-# for github urls:
 mv *-%{plugin}-*/{.??*,*} .
+install -d lib
+cp -p %{SOURCE1} lib
 
 # nothing to do with tests
 # and other development cruft
@@ -56,6 +59,8 @@ mv *-%{plugin}-*/{.??*,*} .
 %{__rm} stylelint.config.js
 %{__rm} webpack.config.js
 %{__rm} yarn.lock
+# sources, confuses dokuwiki
+%{__rm} -r script
 
 %build
 version=$(awk '/^date/{print $2}' plugin.info.txt)
@@ -91,6 +96,6 @@ fi
 %{plugindir}/*.txt
 %{plugindir}/action
 %{plugindir}/conf
+%{plugindir}/lib
 %{plugindir}/parser
 %{plugindir}/schema
-%{plugindir}/script
