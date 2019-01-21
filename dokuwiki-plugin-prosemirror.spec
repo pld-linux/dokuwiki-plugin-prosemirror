@@ -52,6 +52,9 @@ mv *-%{plugin}-*/{.??*,*} .
 %{__rm} deleted.files
 %{__rm} package.json
 %{__rm} pre-commit.hook.sh
+%{__rm} requirements.txt # dokuwiki testing
+%{__rm} stylelint.config.js
+%{__rm} webpack.config.js
 %{__rm} yarn.lock
 
 %build
